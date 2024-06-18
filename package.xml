@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Package xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Default Values In Record Creation Modal</fullName>
+    <types>
+        <members>DefaultValuesLwcController</members>
+        <members>DefaultValuesLwcControllerTest</members>
+        <name>ApexClass</name>
+    </types>
+    <types>
+        <members>Default_Value_Field_Mapping__mdt.Parent_Object_Field__c</members>
+        <members>Default_Value_Field_Mapping__mdt.Parent_Object_Name__c</members>
+        <members>Default_Value_Field_Mapping__mdt.Source_Component_Type__c</members>
+        <members>Default_Value_Field_Mapping__mdt.Source_Key__c</members>
+        <members>Default_Value_Field_Mapping__mdt.Target_Object_Field__c</members>
+        <name>CustomField</name>
+    </types>
+    <types>
+        <members>Default_Value_Field_Mapping__mdt</members>
+        <name>CustomObject</name>
+    </types>
+    <types>
+        <members>Default_Value_Field_Mapping__mdt-Default Value Field Mapping Layout</members>
+        <name>Layout</name>
+    </types>
+    <types>
+        <members>navToNewRecCreateModalWithDefaults</members>
+        <name>LightningComponentBundle</name>
+    </types>
+    <version>58.0</version>
+</Package>
