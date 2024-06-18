@@ -18,4 +18,12 @@ Implementation steps:
 
 Example: Opportunity_XXXXX_Create_Opp
 
+![image](https://github.com/kevina-code/Default-Values-on-Record-Create/assets/124932501/212a88ac-dedf-4db7-a507-a2f46268e884)
+
 3. Create a Default_Values_Field_Mapping__mdt record for each field you want to map to the object getting created when the action button is clicked. See screenshot for an example field mapping.
+
+![image](https://github.com/kevina-code/Default-Values-on-Record-Create/assets/124932501/53fede59-c9de-43e8-9cbd-754d43799f83)
+
+When your action button is clicked, it will open the record creation model and populate the defaults within the modal:
+
+![image](https://github.com/kevina-code/Default-Values-on-Record-Create/assets/124932501/d58d66d0-5f98-4840-b47f-86d3cfc7a726)
