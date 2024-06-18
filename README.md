@@ -18,4 +18,4 @@ Implementation steps:
 
 Example: Opportunity_XXXXX_Create_Opp
 
-3. reate a Default_Values_Field_Mapping__mdt record for each field you want to map to the object getting created when the action button is clicked. See screenshot for an example field mapping.
+3. Create a Default_Values_Field_Mapping__mdt record for each field you want to map to the object getting created when the action button is clicked. See screenshot for an example field mapping.
