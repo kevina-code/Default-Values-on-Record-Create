@@ -32,12 +32,15 @@ import retrieveDefaultValues from "@salesforce/apex/DefaultValuesLwcController.r
 /**
  * default LWC main class
  */
-export default class DefaultValuesComponent extends NavigationMixin(LightningElement) {
+export default class DefaultValuesComponent extends NavigationMixin(
+  LightningElement
+) {
   @api sourceDfKeyFromFlow; // default values key defined in Screen Flow definition (for Screen Flow use case)
   @api recordIdFromFlow; // record id passed in from Screen Flow within Lightning Layout (for Screen Flow use case)
   @api sObjNameFromFlow; // sobject name defined in Screen Flow definition (for Screen Flow use case)
 
   // private properties:
+  context;
   sObjectApiName = "";
   sourceKey = ""; // source API name could come from quick action API Name, or Screen Flow
   _recordId;
@@ -51,6 +54,7 @@ export default class DefaultValuesComponent extends NavigationMixin(LightningEle
   getQuickActionApiName(currentPageReference) {
     // if the page is a quick action, get quick action API name
     if (currentPageReference.type === "standard__quickAction") {
+      this.context = "Quick Action";
       let quickActionPath = currentPageReference.attributes.apiName;
       let firstSplit = quickActionPath.split(".")[1];
       let sObjectApiName = firstSplit.split("_XXXXX_")[0];
@@ -60,6 +64,7 @@ export default class DefaultValuesComponent extends NavigationMixin(LightningEle
       this.sObjectApiName = sObjectApiName;
       this.sourceKey = firstSplit;
     } else if (currentPageReference.type === "standard__recordPage") {
+      this.context = "Flow";
       this.sourceKey = this.sourceDfKeyFromFlow;
       this.sObjectApiName = this.sObjNameFromFlow;
       this._recordId = this.recordIdFromFlow;
@@ -98,22 +103,42 @@ export default class DefaultValuesComponent extends NavigationMixin(LightningEle
     // call apex controller method to retrieve the default values:
     retrieveDefaultValues({
       recordId: this.recordId,
-      sourceKeyParam: sourceKey
+      sourceKeyParam: sourceKey,
     })
       .then((result) => {
         const defaultValues = encodeDefaultFieldValues(result);
 
-        // navigate to record creation modal
-        this[NavigationMixin.Navigate]({
-          type: "standard__objectPage",
-          attributes: {
-            objectApiName: this.sObjectApiName,
-            actionName: "new"
-          },
-          state: {
-            defaultFieldValues: defaultValues
-          }
-        });
+        // if the context is Quick Action, navigate to the newly created record after
+        // the user proceeds from the record creation modal
+        if (this.context === "Quick Action") {
+          this[NavigationMixin.Navigate]({
+            type: "standard__objectPage",
+            attributes: {
+              objectApiName: this.sObjectApiName,
+              actionName: "new",
+            },
+            state: {
+              defaultFieldValues: defaultValues,
+            },
+          });
+        } else if (this.context === "Flow") {
+          // if the context is Flow, do not navigate to the newly created record.
+          // instead, stay on the same screen so the user can proceed to the next step in the flow
+          this[NavigationMixin.Navigate]({
+            type: "standard__objectPage",
+            attributes: {
+              objectApiName: this.sObjectApiName,
+              actionName: "new",
+            },
+            state: {
+              count: "1",
+              nooverride: "1",
+              useRecordTypeCheck: "1",
+              defaultFieldValues: defaultValues,
+              navigationLocation: "RELATED_LIST",
+            },
+          });
+        }
       })
       .catch((error) => {
         this.dispatchEvent(
@@ -121,7 +146,7 @@ export default class DefaultValuesComponent extends NavigationMixin(LightningEle
             title: "Error retrieving default values",
             message: error.body.message,
             variant: "error",
-            mode: "sticky"
+            mode: "sticky",
           })
         );
       });
