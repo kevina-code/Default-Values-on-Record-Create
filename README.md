@@ -1,6 +1,6 @@
 This is a robust solution of defaulting values in record creation screens. It serves as an alternative to using:
 ```/lightning/o/ObjectName/new?defaultFieldValues``` 
-but with greater customizability like validating on quick action button click. 
+but with greater customizability like invoking the record creation screen from a Screen Flow.
 
 Implementation steps:
 
